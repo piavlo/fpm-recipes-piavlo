@@ -7,8 +7,8 @@ case "$1" in
     ;;
 
     purge)
-        userdel nagcmd || true
-        groupdel nagios || true
+        userdel nagios || true
+        groupdel nagcmd || true
     ;;
 
     upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
