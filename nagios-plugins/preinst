@@ -1,0 +1,19 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+    configure)
+	user="nagios"
+	group="nagcmd"
+
+	if ! getent group "$group" > /dev/null 2>&1 ; then
+	    addgroup --system "$group"
+	fi
+
+	if ! id "$user" > /dev/null 2>&1 ; then
+	    adduser --system --home /var/lib/nagios \
+		--ingroup "$group" --disabled-password \
+		--shell /bin/false "$user"
+	fi
+    ;;
+esac
