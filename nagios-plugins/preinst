@@ -2,7 +2,7 @@
 set -e
 
 case "$1" in
-    configure)
+    install)
 	user="nagios"
 	group="nagcmd"
 
