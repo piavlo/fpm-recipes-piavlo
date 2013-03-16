@@ -1,15 +1,3 @@
-#module FPM
-#  module Cookery
-#    class Path < Pathname
-#      def patch(src, level = 0)
-#        raise "patch level must be integer" unless level.is_a?(Fixnum)
-#        raise "#{src} does not exist" unless File.exist? src
-#        safesystem "patch -p#{level} < #{src}"
-#      end
-#    end
-#  end
-#end
-
 class Nrpe < FPM::Cookery::Recipe
   homepage    'http://nagiosplugins.org/'
   name        'nrpe'
