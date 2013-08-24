@@ -1,0 +1,24 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+    remove)
+        # Nothing to do here
+    ;;
+
+    purge)
+        rm -rf /var/lib/gearmand /var/log/gearmand /var/run/gearmand
+
+        deluser gearmand || true
+        delgroup gearmand || true
+    ;;
+
+    upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+        # Nothing to do here
+    ;;
+
+    *)
+        echo "$0 called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
