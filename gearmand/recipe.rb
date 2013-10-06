@@ -1,9 +1,9 @@
 class Gearmand < FPM::Cookery::Recipe
   homepage    'http://gearman.org/'
   name        'gearmand'
-  version     '1.1.9'
+  version     '1.1.11'
   source      "https://launchpad.net/gearmand/1.2/#{version}/+download/#{name}-#{version}.tar.gz"
-  md5         '027ffbad53b9f763e41a12166e2212e5'
+  md5         '5048ff0a366f7c37e0abf86d88e7cb9c'
 
   revision    '1'
   maintainer  'Piavlo <lolitushka@gmail.com>'
@@ -36,5 +36,7 @@ class Gearmand < FPM::Cookery::Recipe
 
   def install
     make :install, 'DESTDIR' => destdir
+    etc('init.d').install workdir('init.d'), 'gearmand'
+    etc('default').install workdir('params'), 'gearmand'
   end
 end

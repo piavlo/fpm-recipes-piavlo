@@ -1,0 +1,2 @@
+PARAMS="--listen=0.0.0.0 --job-retries=1 --threads=4 --worker-wakeup=4 --file-descriptors=10240 \
+	--exceptions --round-robin --verbose=NOTICE --http-port=8080"
