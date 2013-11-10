@@ -1,0 +1,44 @@
+#!/bin/bash
+
+USER=gearmand
+LOGFILE=/var/log/gearmand/gearmand.log
+PIDFILE=/var/run/gearmand/gearmand.pid
+
+. /lib/lsb/init-functions
+
+[ -e /etc/default/gearmand ] && source /etc/default/gearmand
+
+case "$1" in
+  start)
+	install -d /var/log/gearman -o $USER -g $USER -m 750
+        install -d /var/run/gearman -o $USER -g $USER -m 750
+
+        log_daemon_msg "Starting Gearmand daemon: "
+	/usr/sbin/gearmand -u $USER --daemon --log-file=$LOGFILE --pid-file=$PIDFILE $PARAMS
+        if [ $? -eq 0 ]; then
+                log_end_msg 0
+        else
+                log_end_msg 1
+        fi
+
+        ;;
+  stop)
+        log_daemon_msg "Stopping Gearmand daemon: "
+	/usr/bin/gearadmin --shutdown --port=4730
+        if [ $? -eq 0 ]; then
+                log_end_msg 0
+        else
+                log_end_msg 1
+        fi
+        ;;
+  restart)
+        $0 stop
+	sleep 1
+        $0 start
+        ;;
+  *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+
+exit 0

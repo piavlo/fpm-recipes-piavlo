@@ -1,0 +1,7 @@
+/var/log/gearmand/gearmand.log {
+        daily
+        rotate 1
+        missingok
+        copytruncate
+        compress
+}

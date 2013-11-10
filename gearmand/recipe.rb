@@ -38,5 +38,6 @@ class Gearmand < FPM::Cookery::Recipe
     make :install, 'DESTDIR' => destdir
     etc('init.d').install workdir('init.d'), 'gearmand'
     etc('default').install workdir('params'), 'gearmand'
+    etc('logrotate.d').install workdir('logrotate'), 'gearmand'
   end
 end
