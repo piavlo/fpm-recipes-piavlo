@@ -1,0 +1,21 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+    configure)
+	user="graphite"
+	group="graphite"
+
+	if ! getent group "$group" > /dev/null 2>&1 ; then
+	    addgroup --system "$group" --quiet
+	fi
+
+	if ! id "$user" > /dev/null 2>&1 ; then
+	    adduser --system --home "/opt/$user" \
+		--ingroup "$group" --disabled-password \
+		--shell /bin/false "$user"
+	fi
+
+	chown $user:$user /var/log/$user /var/lib/$user/whisper
+    ;;
+esac
