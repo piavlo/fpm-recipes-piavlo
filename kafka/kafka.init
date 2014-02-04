@@ -1,0 +1,78 @@
+#!/bin/sh
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
+
+DESC="Kafka Broker"
+
+KAFKA_USER=kafka
+
+SHUTDOWN_TIMEOUT=5
+
+# Make sure kafka is started with system locale
+if [ -r /etc/default/locale ]; then
+	. /etc/default/locale
+	export LANG
+fi
+
+if [ -r /etc/default/rcS ]; then
+	. /etc/default/rcS
+fi
+
+[ -e /etc/default/kafka ] && . /etc/default/kafka
+
+LOCKFILE=/var/run/lock/kafka
+PIDFILE=/var/run/kafka.pid
+WORKDIR=/var/lib/kafka
+LOGDIR=/var/log/kafka
+
+. /lib/lsb/init-functions
+
+# Escape any double quotes in the value of JAVA_OPTS
+JAVA_OPTS="$(echo $JAVA_OPTS | sed 's/\"/\\\"/g')"
+KAFKA_OPTS="${KAFKA_OPTS} ${JAVA_OPTS}"
+
+# Export Kafka environment variables from $DEFAULT file so
+# /usr/bin/kafka will recognize them
+export CLASSPATH KAFKA_CONFIG JMX_PORT KAFKA_JMX_OPTS SCALA_VERSION KAFKA_JVM_PERFORMANCE_OPTS KAFKA_HEAP_OPTS KAFKA_LOG4J_OPTS KAFKA_OPTS KAFKA_GC_LOG_OPTS
+
+start() {
+        ulimit -n 32000
+        log_daemon_msg "Starting $DESC: "
+        daemonize -c $WORKDIR -u $KAFKA_USER -p $PIDFILE -l $LOCKFILE -o $LOGDIR/stdout -e $LOGDIR/stderr /usr/bin/kafka
+        log_end_msg $?
+}
+stop(){
+        [ -e "$PIDFILE" ] && [ ! -z "$(cat $PIDFILE)" ] && test -d "/proc/$(cat $PIDFILE)" && kill -s TERM $(cat $PIDFILE)
+        log_daemon_msg "Stopping $DESC: "
+        flock --exclusive --timeout $SHUTDOWN_TIMEOUT $LOCKFILE --command "echo -n"
+        log_end_msg $?
+}
+
+case "$1" in
+  start)
+	if [ -z "$JAVA_HOME" ]; then
+		log_failure_msg "no JDK found - please set JAVA_HOME"
+		exit 1
+	fi
+	DAEMON=${JAVA_HOME}/bin/java
+
+	if [ -n "$KAFKA_START" -a "$KAFKA_START" != "yes" ]; then
+		log_failure_msg "KAFKA_START not set to 'yes' in $DEFAULT, not starting"
+		exit 0
+	fi
+
+	start
+	;;
+  stop)
+	stop
+	;;
+  restart)
+	stop && start
+	;;
+  *)
+	log_success_msg "Usage: $0 {start|stop|restart}"
+	exit 1
+	;;
+esac
+
+exit 0

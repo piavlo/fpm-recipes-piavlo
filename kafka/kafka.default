@@ -1,0 +1,21 @@
+KAFKA_START=yes
+
+SCALA_VERSION="0.8.0"
+
+JAVA_HOME="/usr/lib/jvm/default-java"
+
+JMX_PORT="9093"
+
+KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:/etc/kafka/log4j.properties"
+
+KAFKA_HEAP_OPTS="-Xms1024M -Xmx1024M -Xmn200M"
+
+KAFKA_JVM_PERFORMANCE_OPTS="-server -XX:+UseCompressedOops -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled"
+KAFKA_JVM_PERFORMANCE_OPTS="${KAFKA_JVM_PERFORMANCE_OPTS} -XX:+CMSScavengeBeforeRemark -XX:+DisableExplicitGC -Djava.awt.headless=true"
+
+LOG_DIR="/var/log/kafka"
+KAFKA_GC_LOG_OPTS="-Xloggc:${LOG_DIR}/${GC_LOG_FILE_NAME} -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps "
+
+KAFKA_OPTS=""
+
+CLASSPATH="/usr/share/java/mx4j-tools.jar"
