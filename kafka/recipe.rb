@@ -1,13 +1,13 @@
 class Kafka < FPM::Cookery::Recipe
   description 'A high-throughput distributed messaging system'
 
-  v = '0.8.0'
+  v = '0.8.1.1'
   name     'kafka'
-  version  "2.8.0-#{v}"
+  version  "2.10-#{v}"
   revision 0
   homepage 'http://kafka.apache.org/'
-  source   "http://ftp.fau.de/apache/kafka/#{v}/kafka_#{version}.tar.gz"
-  md5      '593e0cf966e6b8cd1bbff5bff713c4b3'
+  source   "http://apache.spd.co.il/kafka/#{v}/kafka_#{version}.tgz"
+  md5      'f3f7446788d9a06f6bfaba72912bd8cf'
   arch     'all'
   section  'databases'
 
@@ -45,6 +45,6 @@ exec /bin/sh /usr/share/kafka-#{version}/bin/kafka-run-class.sh kafka.Kafka /etc
     etc('kafka').install workdir('log4j.properties')
     etc('security/limits.d').install workdir('kafka.limits'), 'kafka.conf'
 
-    bin.install 'kafka.sh', 'kafka'
+    sbin.install 'kafka.sh', 'kafka'
   end
 end

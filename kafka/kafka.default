@@ -1,6 +1,6 @@
 KAFKA_START=yes
 
-SCALA_VERSION="0.8.0"
+SCALA_VERSION="2.10"
 
 JAVA_HOME="/usr/lib/jvm/default-java"
 
@@ -14,7 +14,7 @@ KAFKA_JVM_PERFORMANCE_OPTS="-server -XX:+UseCompressedOops -XX:+UseParNewGC -XX:
 KAFKA_JVM_PERFORMANCE_OPTS="${KAFKA_JVM_PERFORMANCE_OPTS} -XX:+CMSScavengeBeforeRemark -XX:+DisableExplicitGC -Djava.awt.headless=true"
 
 LOG_DIR="/var/log/kafka"
-KAFKA_GC_LOG_OPTS="-Xloggc:${LOG_DIR}/${GC_LOG_FILE_NAME} -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps "
+KAFKA_GC_LOG_OPTS="-Xloggc:${LOG_DIR}/${GC_LOG_FILE_NAME} -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps"
 
 KAFKA_OPTS=""
 

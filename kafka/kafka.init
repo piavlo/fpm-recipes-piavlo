@@ -38,7 +38,7 @@ export CLASSPATH KAFKA_CONFIG JMX_PORT KAFKA_JMX_OPTS SCALA_VERSION KAFKA_JVM_PE
 start() {
         ulimit -n 32000
         log_daemon_msg "Starting $DESC: "
-        daemonize -c $WORKDIR -u $KAFKA_USER -p $PIDFILE -l $LOCKFILE -o $LOGDIR/stdout -e $LOGDIR/stderr /usr/bin/kafka
+        daemonize -c $WORKDIR -u $KAFKA_USER -p $PIDFILE -l $LOCKFILE -o $LOGDIR/stdout -e $LOGDIR/stderr /usr/sbin/kafka
         log_end_msg $?
 }
 stop(){
