@@ -11,11 +11,10 @@ class Librdkafka < FPM::Cookery::Recipe
   section     'messaging'
 
   depends       'zlib1g'
-  build_depends 'gcc', 'make', 'zlib1g-dev'
+  build_depends 'gcc', 'g++', 'make', 'zlib1g-dev'
 
   def build
-    configure \
-      :prefix     => prefix
+    configure :prefix => prefix
     make
   end
 
